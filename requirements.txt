@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+grpcio
+cryptography
+pycryptodome
+pydantic
