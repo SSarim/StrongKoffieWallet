@@ -3,9 +3,9 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from passlib.context import CryptContext
 import secrets
 # Secret key for encoding JWT tokens
-SECRET_KEY = "Bobby_Shmurda"  # Change this to a strong secret in production
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+# SECRET_KEY = "Bobby_Shmurda"  # Change this to a strong secret in production
+# ALGORITHM = "HS256"
+# ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
 # In-memory user store for demonstration purposes
@@ -33,11 +33,11 @@ def get_user(db, username: str):
         return db[username]
     return None
 
-def authenticate_user(db, username: str, password: str):
-    user = get_user(db, username)
-    if not user or not verify_password(password, user["hashed_password"]):
-        return False
-    return user
+# def authenticate_user(db, username: str, password: str):
+#     user = get_user(db, username)
+#     if not user or not verify_password(password, user["hashed_password"]):
+#         return False
+#     return user
 
 
 # def create_access_token(data: dict, expires_delta: timedelta = None):
@@ -50,20 +50,30 @@ def authenticate_user(db, username: str, password: str):
 #     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 #     return encoded_jwt
 
-async def get_current_user(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
-            raise credentials_exception
-    except jwt.PyJWTError:
-        raise credentials_exception
-    user = get_user(fake_users_db, username)
-    if user is None:
-        raise credentials_exception
+
+def get_current_user(credentials: HTTPBasicCredentials = Depends(security)):
+    user = get_user(fake_users_db, credentials.username)
+    if user is None or not verify_password(credentials.password, user["hashed_password"]):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Basic"},
+        )
     return user
+# async def get_current_user(token: str = Depends(oauth2_scheme)):
+#     credentials_exception = HTTPException(
+#         status_code=status.HTTP_401_UNAUTHORIZED,
+#         detail="Could not validate credentials",
+#         headers={"WWW-Authenticate": "Bearer"},
+#     )
+#     try:
+#         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+#         username: str = payload.get("sub")
+#         if username is None:
+#             raise credentials_exception
+#     except jwt.PyJWTError:
+#         raise credentials_exception
+#     user = get_user(fake_users_db, username)
+#     if user is None:
+#         raise credentials_exception
+#     return user

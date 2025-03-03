@@ -5,10 +5,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
 from app.auth import (
-    authenticate_user,
-    create_access_token,
-    ACCESS_TOKEN_EXPIRE_MINUTES,
-    oauth2_scheme,
+    # authenticate_user,
+    # ACCESS_TOKEN_EXPIRE_MINUTES,
     get_current_user,
     fake_users_db
 )
@@ -19,20 +17,20 @@ router = APIRouter()
 blockchain = Blockchain()
 
 
-@router.post("/token")
-async def login_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = authenticate_user(fake_users_db,form_data.username, form_data.password)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub" : user["username"]}, expires_delta=access_token_expires
-    )
-    return {"access_token": access_token, "token_type": "bearer"}
+# @router.post("/token")
+# async def login_token(form_data: OAuth2PasswordRequestForm = Depends()):
+#     user = authenticate_user(fake_users_db,form_data.username, form_data.password)
+#     if not user:
+#         raise HTTPException(
+#             status_code=status.HTTP_401_UNAUTHORIZED,
+#             detail="Incorrect username or password",
+#             headers={"WWW-Authenticate": "Bearer"},
+#         )
+#     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+#     access_token = create_access_token(
+#         data={"sub" : user["username"]}, expires_delta=access_token_expires
+#     )
+#     return {"access_token": access_token, "token_type": "bearer"}
 # NEED TO FIX SO I CAN SEE IN LOCAL HOST DOCS
 
 
@@ -46,11 +44,13 @@ async def create_transaction(tx: TransactionModel, current_user: dict = Depends(
 
     # Edge case: Sender fund check before adding the transaction
     sender_balance = blockchain.get_balance(tx.sender)
+
     if sender_balance < tx.amount:
         raise HTTPException(status_code=400, detail="Insufficient funds")
     transaction = Transaction(tx.sender, tx.receiver, tx.amount)
-    new_block = blockchain.add_transaction(transaction)
-    return {"message": "Transaction Accpeted", "block": new_block.__dict__}
+    # new_block = blockchain.add_transaction(transaction)
+    # return {"message": "Transaction Accpeted", "block": new_block.__dict__}
+    return {"message": "Transaction recorded"}
 
 # Remove mine and set into transaction history
 # @router.post("/mine/")
@@ -63,6 +63,8 @@ async def create_transaction(tx: TransactionModel, current_user: dict = Depends(
 
 @router.get("/balance/{address}")
 async def get_balance(current_user: dict = Depends(get_current_user)):
+    if current_user != current_user["username"]:
+        raise HTTPException(status_code=403, detail = "Unauthorized, please login to your own personal account!")
     username = current_user["username"]
     balance = blockchain.get_balance(username)
     return {"address": username, "balance": balance}
