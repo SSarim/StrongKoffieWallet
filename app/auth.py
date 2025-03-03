@@ -1,3 +1,5 @@
+from logging import raiseExceptions
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from passlib.context import CryptContext
@@ -26,12 +28,24 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security = HTTPBasic()
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    # if plain_password in db:
+        return pwd_context.verify(plain_password, hashed_password)
+    # else:
+    #     raise HTTPException(
+    #         status_code=status.HTTP_404_NOT_FOUND,
+    #         detail="pass not found",
+    #         headers={"WWW-Authenticate": "Basic"},
+    #     )
 
 def get_user(db, username: str):
     if username in db:
         return db[username]
-    return None
+    # else:
+    #     raise HTTPException(
+    #         status_code=status.HTTP_404_NOT_FOUND,
+    #         detail="User not found",
+    #         headers={"WWW-Authenticate": "Basic"},
+    #     )
 
 # def authenticate_user(db, username: str, password: str):
 #     user = get_user(db, username)
