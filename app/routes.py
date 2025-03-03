@@ -49,21 +49,23 @@ async def create_transaction(tx: TransactionModel, current_user: dict = Depends(
     if sender_balance < tx.amount:
         raise HTTPException(status_code=400, detail="Insufficient funds")
     transaction = Transaction(tx.sender, tx.receiver, tx.amount)
-    blockchain.add_transaction(transaction)
-    return {"message": "Transaction added", "transaction": transaction.to_dict()}
+    new_block = blockchain.add_transaction(transaction)
+    return {"message": "Transaction Accpeted", "block": new_block.__dict__}
 
-@router.post("/mine/")
-async def mine_transactions(miner_address: str, current_user: dict = Depends(get_current_user)):
-    block = blockchain.mine_pending_transactions(miner_address)
-    # Testing: need to check in login required
-    if block is None:
-        raise HTTPException(status_code=400, detail="No transactions to mine")
-    return {"message": "Block mined", "block": block.__dict__}
+# Remove mine and set into transaction history
+# @router.post("/mine/")
+# async def mine_transactions(miner_address: str, current_user: dict = Depends(get_current_user)):
+#     block = blockchain.mine_pending_transactions(miner_address)
+#     # Testing: need to check in login required
+#     if block is None:
+#         raise HTTPException(status_code=400, detail="No transactions to mine")
+#     return {"message": "Block mined", "block": block.__dict__}
 
 @router.get("/balance/{address}")
-async def get_balance(address: str, current_user: dict = Depends(get_current_user)):
-    balance = blockchain.get_balance(address)
-    return {"address": address, "balance": balance}
+async def get_balance(current_user: dict = Depends(get_current_user)):
+    username = current_user["username"]
+    balance = blockchain.get_balance(username)
+    return {"address": username, "balance": balance}
 
 @router.get("/transactions/")
 async def get_transaction_history():
