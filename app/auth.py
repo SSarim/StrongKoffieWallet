@@ -40,12 +40,12 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 def get_user(db, username: str):
     if username in db:
         return db[username]
-    # else:
-    #     raise HTTPException(
-    #         status_code=status.HTTP_404_NOT_FOUND,
-    #         detail="User not found",
-    #         headers={"WWW-Authenticate": "Basic"},
-    #     )
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+            headers={"WWW-Authenticate": "Basic"},
+        )
 
 # def authenticate_user(db, username: str, password: str):
 #     user = get_user(db, username)
