@@ -48,6 +48,7 @@ async def create_transaction(tx: TransactionModel, current_user: dict = Depends(
     if sender_balance < tx.amount:
         raise HTTPException(status_code=400, detail="Insufficient funds")
     transaction = Transaction(tx.sender, tx.receiver, tx.amount)
+    blockchain.add_transaction(transaction)
     # new_block = blockchain.add_transaction(transaction)
     # return {"message": "Transaction Accpeted", "block": new_block.__dict__}
     return {"message": "Transaction recorded"}
