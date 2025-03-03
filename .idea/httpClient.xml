@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="HttpClientEndpointsTabState">
+    <option name="requestToText" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;52585b95d279b88da7aab7020a7c1df7a1c5b0c1&quot; value=&quot;###&amp;#10;POST http://localhost:8000/transaction/&quot; /&gt;&#10;  &lt;entry key=&quot;3af430f9859d9dddd902d1b0d667b87a865d5c51&quot; value=&quot;###&amp;#10;GET http://localhost:8000/transactions/&quot; /&gt;&#10;  &lt;entry key=&quot;204500aa7f1a41bfdd100845b67f4db4b952b86f&quot; value=&quot;###&amp;#10;GET http://localhost:8000/balance/{{address}}&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
+  </component>
+</project>

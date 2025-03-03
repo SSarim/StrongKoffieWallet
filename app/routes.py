@@ -5,8 +5,6 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
 from app.auth import (
-    # authenticate_user,
-    # ACCESS_TOKEN_EXPIRE_MINUTES,
     get_current_user,
     fake_users_db
 )
@@ -15,24 +13,6 @@ router = APIRouter()
 
 # Global blockchain instance
 blockchain = Blockchain()
-
-
-# @router.post("/token")
-# async def login_token(form_data: OAuth2PasswordRequestForm = Depends()):
-#     user = authenticate_user(fake_users_db,form_data.username, form_data.password)
-#     if not user:
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Incorrect username or password",
-#             headers={"WWW-Authenticate": "Bearer"},
-#         )
-#     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-#     access_token = create_access_token(
-#         data={"sub" : user["username"]}, expires_delta=access_token_expires
-#     )
-#     return {"access_token": access_token, "token_type": "bearer"}
-# NEED TO FIX SO I CAN SEE IN LOCAL HOST DOCS
-
 
 
 @router.post("/transaction/")
@@ -53,14 +33,6 @@ async def create_transaction(tx: TransactionModel, current_user: dict = Depends(
     # return {"message": "Transaction Accpeted", "block": new_block.__dict__}
     return {"message": "Transaction recorded"}
 
-# Remove mine and set into transaction history
-# @router.post("/mine/")
-# async def mine_transactions(miner_address: str, current_user: dict = Depends(get_current_user)):
-#     block = blockchain.mine_pending_transactions(miner_address)
-#     # Testing: need to check in login required
-#     if block is None:
-#         raise HTTPException(status_code=400, detail="No transactions to mine")
-#     return {"message": "Block mined", "block": block.__dict__}
 
 @router.get("/balance/{address}")
 async def get_balance(current_user: dict = Depends(get_current_user)):
