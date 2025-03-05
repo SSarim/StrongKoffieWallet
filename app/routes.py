@@ -33,14 +33,15 @@ async def create_transaction(tx: TransactionModel, current_user: dict = Depends(
     # return {"message": "Transaction Accpeted", "block": new_block.__dict__}
     return {"message": "Transaction recorded"}
 
-
-@router.get("/balance/{address}")
+@router.get("/balance/")
 async def get_balance(current_user: dict = Depends(get_current_user)):
-    if current_user != current_user["username"]:
-        raise HTTPException(status_code=403, detail = "Unauthorized, please login to your own personal account!")
+    if current_user["username"] in fake_users_db != current_user["username"]:
+    # if current_user != current_user["username"]:
+        raise HTTPException(status_code=400, detail = "Unauthorized, please login to your own personal account!")
     username = current_user["username"]
     balance = blockchain.get_balance(username)
     return {"address": username, "balance": balance}
+
 
 @router.get("/transactions/")
 async def get_transaction_history():
