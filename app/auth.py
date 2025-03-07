@@ -1,14 +1,7 @@
-from logging import raiseExceptions
-
-from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi import Request, HTTPException, status
 from passlib.context import CryptContext
 
-ALGORITHM = "HS256"
-
-
-
-# In-memory user
+# In-memory user store (same as before)
 fake_users_db = {
     "peer1": {
         "username": "peer1",
@@ -23,29 +16,108 @@ fake_users_db = {
 }
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-security = HTTPBasic()
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-        return pwd_context.verify(plain_password, hashed_password)
+    return pwd_context.verify(plain_password, hashed_password)
 
 def get_user(db, username: str):
-    if username in db:
-        return db[username]
-    else:
+    user = db.get(username)
+    if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found",
-            headers={"WWW-Authenticate": "Basic"},
-        )
-
-
-
-def get_current_user(credentials: HTTPBasicCredentials = Depends(security)):
-    user = get_user(fake_users_db, credentials.username)
-    if user is None or not verify_password(credentials.password, user["hashed_password"]):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Basic"},
+            detail="User not found"
         )
     return user
+
+async def login_user(request: Request, username: str, password: str):
+    user = get_user(fake_users_db, username)
+    if not verify_password(password, user["hashed_password"]):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password"
+        )
+    # Set the user in the session (stored in a signed cookie)
+    request.session["user"] = user["username"]
+    return {"message": "Logged in successfully"}
+
+def get_current_user(request: Request):
+    user = request.session.get("user")
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated"
+        )
+    return {"username": user}
+
+ # Token Login system as a fallback if program does not work
+# from datetime import datetime, timedelta
+# from typing import Optional
+# from fastapi import Depends, HTTPException, status
+# from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+# from passlib.context import CryptContext
+# import jwt
+#
+# SECRET_KEY = "your-very-secret-key"  # Change this in production!
+# ALGORITHM = "HS256"
+# ACCESS_TOKEN_EXPIRE_MINUTES = 30
+#
+# fake_users_db = {
+#     "peer1": {
+#         "username": "peer1",
+#         "full_name": "Peer One",
+#         "hashed_password": "$2b$12$tZYu2anTvNrCVCtPQMInOeYom8MWzR3LoKeqW1hDgJAd4rLbuGsM6",  # hash for "password1"
+#     },
+#     "peer2": {
+#         "username": "peer2",
+#         "full_name": "Peer Two",
+#         "hashed_password": "$2b$12$WarY/YdUliC8wsvtOeJxHOO51hF1vuMvHIFAoiXdUJi/jQSmIYxZK",  # hash for "password2"
+#     },
+# }
+#
+# pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+#
+#
+# def verify_password(plain_password: str, hashed_password: str) -> bool:
+#     return pwd_context.verify(plain_password, hashed_password)
+#
+#
+# def get_user(db, username: str):
+#     return db.get(username)
+#
+#
+# def authenticate_user(db, username: str, password: str):
+#     user = get_user(db, username)
+#     if not user or not verify_password(password, user["hashed_password"]):
+#         return False
+#     return user
+#
+#
+# def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+#     to_encode = data.copy()
+#     if expires_delta:
+#         expire = datetime.utcnow() + expires_delta
+#     else:
+#         expire = datetime.utcnow() + timedelta(minutes=15)
+#     to_encode.update({"exp": expire})
+#     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+#     return encoded_jwt
+#
+#
+# async def get_current_user(token: str = Depends(oauth2_scheme)):
+#     credentials_exception = HTTPException(
+#         status_code=status.HTTP_401_UNAUTHORIZED,
+#         detail="Could not validate credentials",
+#         headers={"WWW-Authenticate": "Bearer"},
+#     )
+#     try:
+#         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+#         username: str = payload.get("sub")
+#         if username is None:
+#             raise credentials_exception
+#     except jwt.PyJWTError:
+#         raise credentials_exception
+#     user = get_user(fake_users_db, username)
+#     if user is None:
+#         raise credentials_exception
+#     return user
