@@ -86,7 +86,7 @@ Blockchain_System/
 │   ├── test_p2p.py               # Tests for P2P networking functionality.
 │   └── test_routes.py            # Tests for API endpoints.
 ├── Dockerfile                    # Containerization setup.
-├── main.py                   # Entry point for your FastAPI application.
+├── main.py                       # Entry point for your FastAPI application.
 ├── requirements.txt              # Python dependencies.
 └── README.md                     # Project documentation.
 
