@@ -33,16 +33,16 @@ class Block:
 class Blockchain:
     def __init__(self):
         self.chain = []
-        self.create_genesis_block()
+        self.create_transaction_block()
 
-    def create_genesis_block(self):
+    def create_transaction_block(self):
         # Preload initial funds using hashed addresses for consistency.
         initial_transactions = [
             {"sender": "NETWORK", "receiver": hash_address("peer1"), "amount": 100},
             {"sender": "NETWORK", "receiver": hash_address("peer2"), "amount": 100}
         ]
-        genesis_block = Block(initial_transactions, "0")
-        self.chain.append(genesis_block)
+        transaction_block = Block(initial_transactions, "0")
+        self.chain.append(transaction_block)
 
     def add_transaction(self, transaction: Transaction):
         new_block = Block([transaction.to_dict()], self.chain[-1].hash)
@@ -98,16 +98,16 @@ class Block:
 class Blockchain:
     def __init__(self):
         self.chain = []
-        self.create_genesis_block()
+        self.create_transaction_block()
 
-    def create_genesis_block(self):
+    def create_transaction_block(self):
         #  initial funds with hashed addresses
         initial_transactions = [
             {"sender": "NETWORK", "receiver": hash_address("peer1"), "amount": 100},
             {"sender": "NETWORK", "receiver": hash_address("peer2"), "amount": 100}
         ]
-        genesis_block = Block(initial_transactions, "0")
-        self.chain.append(genesis_block)
+        transaction_block = Block(initial_transactions, "0")
+        self.chain.append(transaction_block)
 
     def add_transaction(self, transaction: Transaction):
         new_block = Block([transaction.to_dict()], self.chain[-1].hash)

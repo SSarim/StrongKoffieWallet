@@ -2,12 +2,12 @@ import pytest
 from app.blockchain import Blockchain, Transaction
 from app.security import hash_address
 
-def test_genesis_block_creation():
+def test_transaction_block_creation():
     blockchain = Blockchain()
-    # The genesis block should already be created.
+    # Network transaction block should already be created.
     assert len(blockchain.chain) == 1
-    genesis_block = blockchain.chain[0]
-    transactions = genesis_block.transactions
+    transaction_block = blockchain.chain[0]
+    transactions = transaction_block.transactions
     # Check that one of the transactions gives 100 to peer1.
     receivers = [tx["receiver"] for tx in transactions]
     amounts = [tx["amount"] for tx in transactions]
@@ -29,6 +29,6 @@ def test_transaction_history():
     blockchain.add_transaction(tx1)
     blockchain.add_transaction(tx2)
     history = blockchain.get_transaction_history()
-    # Genesis block has two transactions; then one block per added transaction.
+    # Network transaction block has two transactions; then one block per added transaction.
     expected_count = len(blockchain.chain[0].transactions) + 2
     assert len(history) == expected_count

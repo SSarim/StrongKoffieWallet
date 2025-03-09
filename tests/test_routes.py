@@ -4,9 +4,9 @@ from fastapi.testclient import TestClient
 from app.routes import router, blockchain
 from app.auth import get_current_user
 
-# Updated dummy middleware to set the session in request.scope.
-from starlette.middleware.base import BaseHTTPMiddleware
 
+from starlette.middleware.base import BaseHTTPMiddleware
+# Set the session in request.scope. for the middleware.
 class DummySessionMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
         if "session" not in request.scope:
@@ -14,7 +14,7 @@ class DummySessionMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
         return response
 
-# Override dependency to simulate an authenticated user "peer1".
+# Override dependency to test authenticated user "peer1".
 def override_get_current_user():
     return {"username": "peer1"}
 
@@ -29,14 +29,14 @@ client = TestClient(app)
 def reset_blockchain():
     # Reset the blockchain state before each test.
     blockchain.chain = []
-    blockchain.create_genesis_block()
+    blockchain.create_transaction_block()
     yield
 
 def test_get_balance():
     response = client.get("/balance/")
     assert response.status_code == 200
     data = response.json()
-    # Genesis block gives peer1 an initial balance of 100.
+    # Network transaction block gives peer1 an initial balance of 100.
     assert data["address"] == "peer1"
     assert data["balance"] == 100
 
@@ -44,7 +44,7 @@ def test_get_transaction_history():
     response = client.get("/transactions/")
     assert response.status_code == 200
     data = response.json()
-    # Genesis block should include 2 transactions.
+    # Network transaction block should include 2 transactions.
     assert "transactions" in data
     assert len(data["transactions"]) == 2
 
@@ -56,13 +56,13 @@ def test_create_transaction_success():
     data = response.json()
     assert "Transaction recorded" in data["message"]
 
-    # Verify that peer1's balance is reduced accordingly.
+    # Verify that peer1's balance is updated.
     balance_response = client.get("/balance/")
     balance_data = balance_response.json()
     assert balance_data["balance"] == 50
 
 def test_create_transaction_insufficient_funds():
-    # Attempt to send an amount greater than the balance.
+    # Send an amount greater than the balance.
     payload = {"sender": "peer1", "receiver": "peer2", "amount": 150}
     response = client.post("/transaction/", json=payload)
     assert response.status_code == 400
@@ -70,7 +70,7 @@ def test_create_transaction_insufficient_funds():
     assert data["detail"] == "Insufficient funds"
 
 def test_create_transaction_unauthorized():
-    # Transaction where the sender does not match the authenticated user.
+    # Sender does not match the authenticated user for a transaction.
     payload = {"sender": "another", "receiver": "peer2", "amount": 10}
     response = client.post("/transaction/", json=payload)
     assert response.status_code == 403
