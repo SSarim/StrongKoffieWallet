@@ -1,6 +1,9 @@
 import hashlib
 import json
 from time import time
+
+from sqlalchemy.sql.functions import user
+
 from app.security import hash_address
 
 class Transaction:
@@ -38,6 +41,7 @@ class Blockchain:
     def create_transaction_block(self):
         # Preload initial funds using hashed addresses for consistency.
         initial_transactions = [
+            # {"sender": "NETWORK", "receiver": hash_address(user.username), "amount": 100},
             {"sender": "NETWORK", "receiver": hash_address("peer1"), "amount": 100},
             {"sender": "NETWORK", "receiver": hash_address("peer2"), "amount": 100}
         ]

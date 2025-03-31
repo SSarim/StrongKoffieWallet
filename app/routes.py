@@ -1,14 +1,17 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from app.models import TransactionModel
 from app.blockchain import Transaction, Blockchain
-from app.auth import login_user, get_current_user
+from app.auth import login_user, get_current_user, register_user
 
 router = APIRouter()
 
 # Global blockchain instance (state persists in memory)
 blockchain = Blockchain()
 
-@router.post("/login")
+@router.post("/register", operation_id="register_user")
+async def register(request: Request, username: str, full_name: str, password: str):
+    return await register_user(request, username, full_name, password)
+@router.post("/login", operation_id="login_user")
 async def login(request: Request, username: str, password: str):
     """Login endpoint for users. It verifies the user's credentials and sets the session."""
     return await login_user(request, username, password)
