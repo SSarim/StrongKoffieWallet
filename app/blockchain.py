@@ -12,7 +12,6 @@
 #         self.sender = hash_address(sender)
 #         self.receiver = hash_address(receiver)
 #         self.amount = amount
-#         self.signature = signature  # Placeholder for future digital signatures
 #
 #     def to_dict(self):
 #         return {"sender": self.sender, "receiver": self.receiver, "amount": self.amount, "signature": self.signature}
