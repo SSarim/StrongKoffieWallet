@@ -37,7 +37,7 @@ async def login_user(request: Request, username: str, password: str):
     finally:
         db.close()
 
-async def register_user(request: Request, username: str, full_name: str, password: str):
+async def register_user(username: str, full_name: str, password: str):
     db = SessionLocal()
     try:
         existing_user = db.query(User).filter(User.username == username).first()
