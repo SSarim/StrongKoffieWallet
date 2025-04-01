@@ -76,12 +76,15 @@ async def get_transaction(current_user: dict = Depends(get_current_user)):
                 TransactionHistory.receiver == user_hash
             )
         ).all()
+        users = db.query(User).all()
+        hash_to_name = {hash_address(user.username): user.username for user in users}
         tx_list = []
         for tx in transactions:
+            plaintext_sender = hash_to_name.get(tx.sender, tx.sender)
+            plaintext_receiver = hash_to_name.get(tx.receiver, tx.receiver)
             tx_list.append({
-                # "id": tx.id,
-                "sender": tx.sender,
-                "receiver": tx.receiver,
+                "sender": plaintext_sender,
+                "receiver": plaintext_receiver,
                 "amount": tx.amount,
                 "timestamp": tx.timestamp.isoformat()
             })
