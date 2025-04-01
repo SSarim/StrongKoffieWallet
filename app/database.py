@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.engine import URL
 
-# Define your ODBC connection string.
+#  ODBC connection string.
 odbc_connection_string = (
     "Driver={ODBC Driver 18 for SQL Server};"
     "Server=tcp:blockchain.database.windows.net,1433;"
