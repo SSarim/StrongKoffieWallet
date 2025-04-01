@@ -1,6 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel
 
+# Pydantic model
 class TransactionModel(BaseModel):
     sender: str
     receiver: str
