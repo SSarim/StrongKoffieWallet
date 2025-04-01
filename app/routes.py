@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, Form
 from sqlalchemy import or_
 from app.database import SessionLocal
 from app.models import TransactionModel
@@ -8,11 +8,11 @@ from app.security import hash_address
 router = APIRouter()
 
 @router.post("/register", operation_id="register_user")
-async def register(username: str, full_name: str, password: str):
+async def register(username: str = Form(...), full_name: str = Form(...), password: str = Form(...)):
     return await register_user(username, full_name, password)
 
 @router.post("/login", operation_id="login_user")
-async def login(request: Request, username: str, password: str):
+async def login(request: Request, username: str = Form(...), password: str = Form(...)):
     return await login_user(request, username, password)
 
 @router.post("/logout")
@@ -93,7 +93,7 @@ async def get_transaction(current_user: dict = Depends(get_current_user)):
         db.close()
 
 
-@router.get("/transactions_Network/")
+@router.get("/transactions_network/")
 async def get_transaction_history():
     db = SessionLocal()
     try:

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>StrongKoffie Blockchain Wallet</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="stylesheet" href="/static/design.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0" defer></script>
+    <script src="/static/script.js" defer></script>
+</head>
+<body>
+
+<nav class="container-fluid">
+    <ul>
+        <li style="color:#3498db"><strong><span style="color: #4e342e;">StrongKoffie</span> Blockchain Wallet</strong></li>
+    </ul>
+    <ul>
+        <li><a href="#" onclick="showDashboard()">Home</a></li>
+        <li><a href="#" onclick="showTransactionPage()">Transaction</a></li>
+        <li><a href="#" role="button" onclick="logout()">Logout</a></li>
+    </ul>
+</nav>
+
+<main class="container">
+    <div class="grid">
+
+        <!-- Auth -->
+        <section id="auth">
+            <hgroup style="text-align: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 2.5rem; color: #1a237e; font-weight: 700; margin-bottom: 0.3rem;">
+                    👋 Welcome to <span style="color: #4e342e;">StrongKoffie</span> <span style="color: #3498db;">Blockchain Wallet</span>
+                </h2>
+                <h3 style="color: #5c6bc0; font-weight: 400; font-size: 1.2rem;">
+                    Securely create or access your decentralized account
+                </h3>
+            </hgroup>
+
+            <div class="grid">
+                <div class="card">
+                    <h4 style="color: #4e342e;">Register</h4>
+                    <input id="reg-username" placeholder="Username" required>
+                    <input id="reg-fullname" placeholder="Full Name" required>
+                    <input id="reg-password" type="password" placeholder="Password" required>
+                    <button onclick="register()">Register</button>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: #4e342e;">Login</h4>
+                    <input id="login-username" placeholder="Username" required>
+                    <input id="login-password" type="password" placeholder="Password" required>
+                    <button onclick="login()">Login</button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Dashboard -->
+        <section id="dashboard" style="display:none;">
+            <h1 style="color: #4e342e; font-weight: 700;font-size: 2.5rem;">Dashboard</h1>
+            <div class="card" style="display: flex; align-items: center; gap: 1.5rem;">
+                <svg id="avatar" width="70" height="70" data-jdenticon-value=""></svg>
+                <div>
+                    <h2 id="current-user" style="margin: 0; font-size: 1.8rem; color: #0d47a1;">peer1</h2>
+                    <p style="margin: 0.25rem 0; color: #555;"><span class="icon">🔐</span> Logged into your secure
+                        blockchain wallet</p>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <h4><span class="icon">💰</span> Your Balance</h4>
+                <p><strong>₿</strong> <span id="balance" style="font-size: 1.4rem;">...</span></p>
+            </div>
+
+            <div class="card">
+                <h4><span class="icon">📜</span> Your Transactions</h4>
+                <small id="last-updated" style="color: #607d8b;">Last updated: never</small>
+                <div id="transactions" class="transactions"></div>
+            </div>
+
+            <div class="card">
+                <h4><span class="icon">🌐</span> Network Transactions</h4>
+                <div id="network-transactions" class="transactions"></div>
+            </div>
+
+        </section>
+
+        <!-- Transaction -->
+        <section id="transaction-page" style="display:none;">
+            <div class="card">
+                <h3 style="color: #1a73e8;">🚀 Send Crypto</h3>
+                <p style="color: #555;">Send crypto securely to another wallet on the network!</p>
+
+                <label for="to-user">Recipient Username</label>
+                <input id="to-user" type="text" placeholder="e.g. peer2" required>
+
+                <label for="amount">Amount</label>
+                <input id="amount" type="number" placeholder="e.g. 10.5" min="0.01" step="0.01" required>
+
+                <button onclick="sendTransaction()">💸 Send Transaction</button>
+            </div>
+        </section>
+
+
+    </div>
+</main>
+
+<footer class="container">
+    <small><a href="#">Privacy Policy</a> • <a href="#">Terms of Service</a></small>
+</footer>
+
+<!-- Toast -->
+<div id="toast" class="toast hidden">
+    <span id="toast-icon">ℹ️</span> <span id="toast-message"></span>
+</div>
+<!--Loading spin-->
+<div id="spinner" class="spinner-overlay hidden">
+    <div class="spinner"></div>
+</div>
+
+</body>
+</html>
