@@ -4,17 +4,17 @@ from app.database import Base
 
 class User(Base):
     __tablename__ = "users"
-    username = Column(String, primary_key=True, index=True)
-    full_name = Column(String, index = True)
-    hashed_password = Column(String)
-    balance = Column(Float, default=0)
+    username = Column(String(255), primary_key=True, nullable=False)
+    full_name = Column(String(255), nullable=True)
+    hashed_password = Column(String(255), nullable=True)
+    balance = Column(Float, nullable=True)
     last_login = Column(DateTime, nullable=True)
 
 class TransactionHistory(Base):
     __tablename__ = "transaction_history"
     id = Column(Integer, primary_key=True, index=True)
-    sender = Column(String, index=True)
-    receiver = Column(String, index=True)
+    sender = Column(String(255), index=True)
+    receiver = Column(String(255), index=True)
     amount = Column(Float)
     timestamp = Column(DateTime, default=datetime.now)
 
