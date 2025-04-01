@@ -8,8 +8,8 @@ from app.security import hash_address
 router = APIRouter()
 
 @router.post("/register", operation_id="register_user")
-async def register(request: Request, username: str, full_name: str, password: str):
-    return await register_user(request, username, full_name, password)
+async def register(username: str, full_name: str, password: str):
+    return await register_user(username, full_name, password)
 
 @router.post("/login", operation_id="login_user")
 async def login(request: Request, username: str, password: str):
