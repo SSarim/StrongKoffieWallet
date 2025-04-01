@@ -2,6 +2,7 @@ from fastapi import Request, HTTPException, status
 from passlib.context import CryptContext
 from app.database import SessionLocal
 from app.models import User
+import datetime
 
 # In-memory user store (same as before)
 # fake_users_db = {
@@ -43,10 +44,15 @@ async def login_user(request: Request, username: str, password: str):
                 detail="Incorrect username or password"
             )
         # Set the user in the session (stored in a signed cookie)
+        user.last_login = datetime.datetime.now()
+        db.commit()
+        db.refresh(user)
         request.session["user"] = user.username
-        return {"message": "Logged in successfully"}
+        return {"message": "Logged in successfully", "Last Login": user.last_login.isoformat()}
     finally:
         db.close()
+
+
 async def register_user(request: Request, username: str, full_name: str, password: str):
     db = SessionLocal()
     try:
@@ -57,11 +63,11 @@ async def register_user(request: Request, username: str, full_name: str, passwor
                 detail="User already exists"
             )
         hashed_password = pwd_context.hash(password)
-        new_user = User(username=username, full_name=full_name, hashed_password=hashed_password)
+        new_user = User(username=username, full_name=full_name, hashed_password=hashed_password,balance=100)
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
-        return {"message": "User created successfully"}
+        return {"message": "User created successfully", "balance": new_user.balance}
     finally:
         db.close()
 
