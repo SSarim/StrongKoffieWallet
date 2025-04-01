@@ -32,6 +32,7 @@ function showToast(message = "", type = "info", duration = 3000) {
         toast.classList.add("hidden");
     }, duration);
 }
+
 function showSpinner() {
     document.getElementById("spinner").classList.remove("hidden");
 }
@@ -117,12 +118,12 @@ async function login() {
     }
 
 // Refresh transactions every 10 seconds
-setInterval(() => {
-  if (isLoggedIn) {
-    loadTransactions();
-    loadNetworkTransactions();
-  }
-}, 10000);
+    setInterval(() => {
+        if (isLoggedIn) {
+            loadTransactions();
+            loadNetworkTransactions();
+        }
+    }, 10000);
 
 }
 
@@ -178,7 +179,7 @@ async function sendTransaction() {
     try {
         const res = await fetch("/transaction/", {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(payload)
         });
 
@@ -201,28 +202,28 @@ async function sendTransaction() {
 
 
 async function loadTransactions() {
-  const res = await fetch("/transactions/");
-  const data = await res.json();
-  const div = document.getElementById("transactions");
-  const time = document.getElementById("last-updated");
+    const res = await fetch("/transactions/");
+    const data = await res.json();
+    const div = document.getElementById("transactions");
+    const time = document.getElementById("last-updated");
 
-  if (!data.transactions || data.transactions.length === 0) {
-    div.innerHTML = "<p>No personal transactions yet.</p>";
-    time.innerText = "Last updated: just now";
-    return;
-  }
+    if (!data.transactions || data.transactions.length === 0) {
+        div.innerHTML = "<p>No personal transactions yet.</p>";
+        time.innerText = "Last updated: just now";
+        return;
+    }
 
-  div.innerHTML = "";
-  data.transactions.forEach(tx => {
-    div.innerHTML += `
+    div.innerHTML = "";
+    data.transactions.forEach(tx => {
+        div.innerHTML += `
       <p>
         <span><strong>🟢 ${tx.sender}</strong> → <strong>🔵 ${tx.receiver}</strong></span>
         <span>💸 ${tx.amount} <small>@ ${tx.timestamp}</small></span>
       </p>`;
-  });
+    });
 
-  const now = new Date();
-  time.innerText = `Last updated: ${now.toLocaleTimeString()}`;
+    const now = new Date();
+    time.innerText = `Last updated: ${now.toLocaleTimeString()}`;
 }
 
 
@@ -249,13 +250,13 @@ async function loadNetworkTransactions() {
 
     div.innerHTML = "";
     div.classList.add("network-transactions");
-data.transactions.forEach(tx => {
-    div.innerHTML += `
+    data.transactions.forEach(tx => {
+        div.innerHTML += `
         <p>
             <span><strong>${tx.sender}</strong> → <strong>${tx.receiver}</strong></span>
             <span>💸 ${tx.amount} <small>@ ${tx.timestamp}</small></span>
         </p>`;
-});
+    });
 
 }
 
@@ -289,8 +290,3 @@ function showTransactionPage() {
     document.getElementById("transaction-page").style.display = "block";
 }
 
-
-// async function loadNetworkBalance() {
-//     const res: await fetch("/balance_Network/");
-//
-// }

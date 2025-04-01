@@ -5,7 +5,6 @@ from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from app.routes import router as blockchain_router
 from app.database import engine, Base
-import os
 
 
 # creating DB if not built already

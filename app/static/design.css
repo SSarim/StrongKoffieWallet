@@ -118,31 +118,31 @@ h2, h3 {
 }
 
 .transactions p {
-  background: linear-gradient(to right, #e8f0fe, #f1f8ff);
-  border-left: 5px solid #42a5f5;
-  padding: 0.75rem 1rem;
-  margin: 0.5rem 0;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-family: 'Segoe UI', sans-serif;
-  display: flex;
-  flex-direction: column;
-  color: #1a237e;
+    background: linear-gradient(to right, #e8f0fe, #f1f8ff);
+    border-left: 5px solid #42a5f5;
+    padding: 0.75rem 1rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    color: #1a237e;
 }
 
 .transactions p strong {
-  color: #0d47a1;
+    color: #0d47a1;
 }
 
 .transactions p span {
-  margin: 2px 0;
-  line-height: 1.4;
+    margin: 2px 0;
+    line-height: 1.4;
 }
 
 .network-transactions p {
-  background: linear-gradient(to right, #fff3e0, #fff8e1);
-  border-left: 5px solid #ffb74d;
-  color: #4e342e;
+    background: linear-gradient(to right, #fff3e0, #fff8e1);
+    border-left: 5px solid #ffb74d;
+    color: #4e342e;
 }
 
 
@@ -179,7 +179,7 @@ input, button {
     }
 }
 
-/* Input Field Restyle */
+/* Input Field */
 input[type="text"],
 input[type="password"],
 input[type="Username"],
@@ -195,7 +195,6 @@ input:focus {
     outline: none;
 }
 
-/* Optional Toast Enhancement */
 .toast {
     font-weight: 500;
     font-size: 0.95rem;
@@ -205,7 +204,7 @@ input:focus {
     display: none;
 }
 
-/* AUTH Section - Login/Register Styling */
+/* AUTH Section */
 #auth .card {
     background: #ffffff;
     border: 1px solid #e0e0e0;
@@ -263,76 +262,74 @@ input::placeholder {
 
 /* Headings Styling */
 h1, h2, h3, h4 {
-  color: #2c3e50;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+    color: #2c3e50;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 hgroup h2 {
-  color: #1a237e;
-  font-size: 2rem;
-  margin-bottom: 0.2rem;
+    color: #1a237e;
+    font-size: 2rem;
+    margin-bottom: 0.2rem;
 }
 
 hgroup h3 {
-  color: #5c6bc0;
-  font-weight: 400;
-  margin-top: 0;
+    color: #5c6bc0;
+    font-weight: 400;
+    margin-top: 0;
 }
 
-/* Dashboard Enhancements */
 #dashboard .card {
-  border-left: 5px solid #3498db;
-  transition: all 0.3s ease-in-out;
+    border-left: 5px solid #3498db;
+    transition: all 0.3s ease-in-out;
 }
 
 #dashboard .card:hover {
-  transform: scale(1.01);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+    transform: scale(1.01);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
 }
 
 #dashboard h4 {
-  margin-bottom: 0.5rem;
-  color: #1a73e8;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
+    margin-bottom: 0.5rem;
+    color: #1a73e8;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
 }
 
 #dashboard .card p strong {
-  color: #2e7d32;
+    color: #2e7d32;
 }
 
-/* Avatar / user greeting polish */
 #dashboard .flex-row {
-  align-items: center;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #e0e0e0;
+    align-items: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 #dashboard #current-user {
-  font-size: 1.2rem;
-  color: #0d47a1;
+    font-size: 1.2rem;
+    color: #0d47a1;
 }
 
-/* Icon-style emojis for visual flair */
 .icon {
-  font-size: 1.2rem;
+    font-size: 1.2rem;
 }
+
 #transaction-page label {
-  font-weight: 500;
-  color: #333;
-  margin-top: 0.8rem;
-  display: block;
+    font-weight: 500;
+    color: #333;
+    margin-top: 0.8rem;
+    display: block;
 }
 
 #transaction-page input {
-  margin-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
 #transaction-page button {
-  margin-top: 1rem;
-  font-weight: 600;
-  font-size: 1.05rem;
+    margin-top: 1rem;
+    font-weight: 600;
+    font-size: 1.05rem;
 }
 

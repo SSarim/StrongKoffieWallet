@@ -5,20 +5,25 @@ from app.models import TransactionModel
 from app.blockchain import User, TransactionHistory
 from app.auth import login_user, get_current_user, register_user
 from app.security import hash_address
+
 router = APIRouter()
+
 
 @router.post("/register", operation_id="register_user")
 async def register(username: str = Form(...), full_name: str = Form(...), password: str = Form(...)):
     return await register_user(username, full_name, password)
 
+
 @router.post("/login", operation_id="login_user")
 async def login(request: Request, username: str = Form(...), password: str = Form(...)):
     return await login_user(request, username, password)
+
 
 @router.post("/logout")
 async def logout(request: Request):
     request.session.pop("user", None)
     return {"message": "Logged out successfully"}
+
 
 @router.post("/transaction/")
 async def create_transaction(
@@ -54,6 +59,7 @@ async def create_transaction(
     finally:
         db.close()
 
+
 @router.get("/balance/")
 async def get_balance(current_user: dict = Depends(get_current_user)):
     db = SessionLocal()
@@ -64,6 +70,7 @@ async def get_balance(current_user: dict = Depends(get_current_user)):
         return {"username": user.username, "balance": user.balance}
     finally:
         db.close()
+
 
 @router.get("/transactions/")
 async def get_transaction(current_user: dict = Depends(get_current_user)):
