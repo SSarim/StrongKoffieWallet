@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy import or_
 from app.database import SessionLocal
-from app.models import TransactionModel, User, TransactionHistory
+from app.models import TransactionModel
+from app.blockchain import User, TransactionHistory
 from app.auth import login_user, get_current_user, register_user
 from app.security import hash_address
 router = APIRouter()

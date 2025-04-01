@@ -1,8 +1,8 @@
 from fastapi import Request, HTTPException, status
 from passlib.context import CryptContext
 from app.database import SessionLocal
-from app.models import User
 import datetime
+from app.blockchain import User
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
