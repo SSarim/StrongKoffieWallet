@@ -144,6 +144,8 @@ For inquiries or support, please reach out to:
   [GitHub](https://github.com/SSarim)
 - **Project Maintainer:**  shaheryar-abid 
   [GitHub](https://github.com/shaheryar-abid)
+- **Project Maintainer:**  Brandon Wong
+- **Project Maintainer:**  Christian Sorto
 ---
 ## 📃 License
 
