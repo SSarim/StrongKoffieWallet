@@ -129,7 +129,7 @@ docker start strongkoffie-wallet
 ## 🧠 Developer Notes
 
 - All user and transaction data are stored in an in-memory Python `dict` for simplicity.
-- There is support for using a SQLAlchemy-based backend, but it's currently commented out in the code (`blockchain.py`, `routes.py`, `auth.py`).
+- There is support for using a SQLAlchemy-based backend, but it's currently commented out in the code (`blockchain.py`, `routes.py`, `auth.py`), due to deployment expenses.
 - All usernames are hashed using SHA-256 when stored in transactions for privacy.
 
 ---
