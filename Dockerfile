@@ -4,12 +4,6 @@ LABEL authors="sarim"
 WORKDIR /app
 COPY . .
 
-RUN apt-get update && apt-get install -y \
-    unixodbc \
-    unixodbc-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8000
