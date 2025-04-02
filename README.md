@@ -2,6 +2,7 @@
 
 A lightweight, decentralized blockchain wallet built using FastAPI. Users can register, login, manage their balances, and make peer-to-peer cryptocurrency transactions — all within a stylish and intuitive interface.
 
+🌐 Live Demo: [StrongKoffee Wallet](https://blockchainwallet-ece5ghd7gvc7gpec.canadaeast-01.azurewebsites.net/)
 ---
 
 ## 🚀 Features
