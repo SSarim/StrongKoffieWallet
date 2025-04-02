@@ -1,123 +1,158 @@
-# BlockChain Transaction System ₿
+# ☕ StrongKoffie Blockchain Wallet
 
-This project utilizes ____ for ____. Follow the steps below to set up and run the program.
+A lightweight, decentralized blockchain wallet built using FastAPI. Users can register, login, manage their balances, and make peer-to-peer cryptocurrency transactions — all within a stylish and intuitive interface.
 
 ---
 
-## Setup and Installation
+## 🚀 Features
 
-### Prerequisites
-- Python 3.10
-- PyCharm IDE (recommended)
+- 🧑‍💻 User Registration & Login with hashed passwords
+- 💼 Balance management and validation
+- 🔐 Session-based authentication (no token juggling)
+- 💸 Secure peer-to-peer crypto-style transactions
+- 🧾 Transaction history: per-user & network-wide
+- 🖥️ Responsive front-end (HTML + JS + Pico.css)
+- ✅ Unit test suite for backend routes and models
 
+---
 
+## 🧰 Tech Stack
 
-## Installation Steps
-### 1. **Clone the Repository**
-   ```bash
-   git clone ____
-   ```
-### 2. **Open the Project**
-   - Open the project folder in PyCharm IDE.
-   - Open the project main folder using the following command:
-   ```bash
-   cd __
-   ```
+- **Backend:** FastAPI, Uvicorn, Pydantic, Passlib
+- **Frontend:** HTML, JavaScript, Pico.css
+- **Deployment:** Azure
+- **Security:** SHA-256 Address Hashing
+- **Optional DB:** SQLAlchemy ORM (currently disabled)
+- **Testing:** Pytest
 
-### 3. **Configure Python Interpreter**
-   - Select `File` in the upper left corner.
-   - Choose `Settings` > `Project: Blockchain_System` > `Python Interpreter`.
-   - Click `Add Interpreter` and choose `Python 3.10 (Virtual Environment)` in the Base Interpreter section.
-   - Click `Apply` and `OK` to finalize the interpreter setup.
+---
+## 📁 Project Structure
 
-###  Create and Activate a Virtual Environment (ONLY If the interpreter does not create it automatically)
-Run the following commands in your terminal:
-```bash
-python -m venv venv   # Create a virtual environment
 ```
-Then, activate the environment:
-- **Windows:**
-  ```bash
-  .\venv\Scripts\activate
-  ```
-- **Mac/Linux:**
-  ```bash
-  source venv/bin/activate
-  ```
-
-### 4. **Install Requirements**
-   - Run the following command in your terminal to install the necessary dependencies:
-     ```bash
-     pip install -r requirements.txt
-     ```
-
----
-
-## How to Run the Program
-
-### 1. __
-- __
-
-### 2. __
-- __
-- 
-### 3. __
-- __
-- 
-
-### 4. __
-- __
-- 
-
----
-
-## **Directory Structure**
-```
-Blockchain_System/
+.
 ├── app/
-│   ├── __init__.py               # Marks the directory as a Python package.
-│   ├── blockchain.py             # Core blockchain classes (Block, Transaction, Blockchain).
-│   ├── consensus.py              # Implementation of your consensus mechanism (e.g., PoW or PoS).
-│   ├── security.py               # Functions for hashing (SHA256) and digital signatures.
-│   ├── models.py                 # Pydantic models for request/response validation.
-│   └── routes.py                 # FastAPI endpoints (e.g., transaction submission, block queries).
+│   ├── auth.py              # Auth & session utils
+│   ├── blockchain.py        # SQLAlchemy models (optional DB backend)
+│   ├── database.py          # DB engine/init (unused)
+│   ├── models.py            # Pydantic models
+│   ├── routes.py            # API logic
+│   ├── security.py          # SHA256 hashing
+│   ├── store.py             # In-memory data store
+│   ├── static/
+│   │   ├── design.css
+│   │   └── script.js
+│   └── templates/
+│       └── index.html
+├── images/
+│   └── StrongKoffie.png     # UI screenshot
 ├── tests/
-│   ├── test_blockchain.py        # Unit tests for blockchain logic.
-│   ├── test_models.py            # Tests for models functionality.
-│   └── test_routes.py            # Tests for API endpoints.
-├── Dockerfile                    # Containerization setup.
-├── main.py                       # Entry point for the application.
-├── requirements.txt              # Python dependencies.
-└── README.md                     # Project documentation.
+│   ├── test_blockchain.py
+│   ├── test_models.py
+│   └── test_routes.py
+├── Dockerfile
+├── main.py
+├── README.md
+└── requirements.txt
+```## ⚙️ Local Development
 
+### 1. Clone and Setup
+
+```bash
+git clone https://github.com/your-username/StrongKoffieWallet.git
+cd StrongKoffieWallet
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+## ⚙️ Local Development
+
+### 1. Clone and Setup
+
+```bash
+git clone https://github.com/SSarim/StrongKoffieWallet.git
+cd StrongKoffieWallet
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### 2. Run the App
+
+```bash
+uvicorn main:app --reload
+```
+
+Visit: [http://localhost:8000](http://localhost:8000)
+
+---
+
+## 🐳 Docker Deployment
+
+```bash
+docker build -t strongkoffie-wallet .
+docker run -p 8000:8000 strongkoffie-wallet
+```
+
+To start the container again:
+
+```bash
+docker start strongkoffie-wallet
 ```
 
 ---
-## Contribution Guidelines
-Contributions are welcome! If you'd like to contribute, please:
-1. Fork the repository.
-2. Create a feature branch.
-3. Commit your changes.
-4. Open a pull request.
+
+## 🔧 API Overview
+
+| Method | Endpoint                  | Description                          |
+|--------|---------------------------|--------------------------------------|
+| POST   | `/register`               | Create new user                      |
+| POST   | `/login`                  | Authenticate and start session       |
+| POST   | `/logout`                 | Logout user                          |
+| POST   | `/transaction/`           | Send balance to another user         |
+| GET    | `/balance/`               | Retrieve your balance                |
+| GET    | `/transactions/`          | View personal transactions           |
+| GET    | `/transactions_network/`  | View all transactions in system      |
 
 ---
 
+## 🧪 Testing the App
+
+- Register a user through the UI.
+- Login and check your balance (100₿ default).
+- Send crypto to another registered user.
+- View personal and network-wide transaction histories.
+
+---
+
+## 🧠 Developer Notes
+
+- All user and transaction data are stored in an in-memory Python `dict` for simplicity.
+- There is support for using a SQLAlchemy-based backend, but it's currently commented out in the code (`blockchain.py`, `routes.py`, `auth.py`).
+- All usernames are hashed using SHA-256 when stored in transactions for privacy.
+
+---
+
+## 📸 Screenshots
+
+![StrongKoffie Wallet UI](/images/StrongKoffie.png)
+
+---
 ## Contact
 For inquiries or support, please reach out to:
 - **Project Maintainer:**  SSarim
   [GitHub](https://github.com/SSarim)
 - **Project Maintainer:**  shaheryar-abid 
   [GitHub](https://github.com/shaheryar-abid)
-- **Project Maintainer:**  
-
-- **Project Maintainer:**  
-  
-
 ---
-## **License**
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
+## 📃 License
+
+MIT License — feel free to fork, remix, and build upon this.
 
 ---
 
+Built with ❤️ by StrongKoffie Wallet☕!
+
+---
 
 
