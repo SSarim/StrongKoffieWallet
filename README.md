@@ -54,6 +54,7 @@ A lightweight, decentralized blockchain wallet built using FastAPI. Users can re
 ├── main.py
 ├── README.md
 └── requirements.txt
+```
 ```## ⚙️ Local Development
 
 ### 1. Clone and Setup
